@@ -78,6 +78,7 @@ class UpdateStore {
   }
 
   public checkForUpdates() {
+    console.log('checking updates')
     autoUpdater.checkForUpdates()
   }
 

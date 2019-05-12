@@ -15,7 +15,7 @@
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
     "pack": "yarn compile && electron-builder --dir",
-    "release": "build"
+    "release": "yarn compile && build"
   },
   "build": {
     "productName": "Electron Updater Example",
@@ -67,6 +67,7 @@
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
     "@types/react-transition-group": "^2.0.15",
+    "@types/semver": "^6.0.0",
     "electron": "3.0.10",
     "electron-builder": "^20.36.2",
     "electron-webpack": "^2.6.1",

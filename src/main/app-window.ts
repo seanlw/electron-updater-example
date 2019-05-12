@@ -3,6 +3,7 @@ import * as path from 'path'
 import { staticPath } from '../lib/path'
 import { format as formatUrl } from 'url'
 import { MenuEvent } from './menu'
+import { UpdateStatus } from './update-store'
 import { Emitter, Disposable } from 'event-kit'
 
 let windowStateKeeper: any | null = null
@@ -102,6 +103,14 @@ export class AppWindow {
     this.show()
 
     this.window.webContents.send('menu-event', { name })
+  }
+
+  public sendUpdateStatus(status: UpdateStatus) {
+    this.window.webContents.send('update-changed', { status })
+  }
+
+  public sendUpdateError(error: Error) {
+    this.window.webContents.send('update-error', { error })
   }
 
   private emitDidLoad() {

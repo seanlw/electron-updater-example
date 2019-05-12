@@ -2,8 +2,9 @@ import * as React from 'react'
 import { Dispatcher } from '../lib/dispatcher'
 import { AppStore } from '../lib/stores'
 import { IAppState } from '../lib/app-state'
-import { updateStore, UpdateStatus } from './lib/update-store'
 import { UpdateAvailable } from './update-available'
+import { ipcRenderer } from 'electron';
+import { UpdateStatus } from '../main/update-store';
 
 interface IAppProps {
   readonly appStore: AppStore
@@ -16,19 +17,23 @@ export class App extends React.Component<IAppProps, IAppState> {
   public constructor(props: IAppProps) {
     super(props)
 
-    updateStore.onDidChange(state => {
-      const status = state.status
-      console.log('update status: ', status)
-      if (status === UpdateStatus.UpdateReady) {
-        this.props.dispatcher.setUpdateAvailableVisibility(true)
+    this.state = props.appStore.getState()
+
+    ipcRenderer.on(
+      'update-changed',
+      (event: Electron.IpcMessageEvent, { status }: { status: UpdateStatus }) => {
+        if (status === UpdateStatus.UpdateReady) {
+          this.props.dispatcher.setUpdateAvailableVisibility(true)
+        }
       }
-    })
-
-    updateStore.onError(error => {
-      console.error(error)
-    })
-
-    updateStore.checkForUpdates()
+    )
+    ipcRenderer.on(
+      'update-error',
+      (event: Electron.IpcMessageEvent, { error }: { error: Error }) => {
+        console.error('update error', error)
+        this.props.dispatcher.setUpdateAvailableVisibility(false)
+      }
+    )
   }
 
   private renderUpdateBanner() {

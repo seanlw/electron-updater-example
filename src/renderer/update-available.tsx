@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { updateStore } from './lib/update-store'
+import { updateStore } from '../main/update-store'
 
 interface IUpdateAvailableProps {
   readonly onDismissed: () => void
