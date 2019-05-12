@@ -2,6 +2,8 @@ import { Emitter, Disposable } from 'event-kit'
 import { autoUpdater } from 'electron-updater'
 import { UpdateStatus } from '../lib/app-state'
 
+const lastSuccessfulCheckKey = 'last-successful-update-check'
+
 export interface IUpdateState {
   status: UpdateStatus
   lastCheck: Date | null
@@ -13,14 +15,29 @@ class UpdateStore {
   private lastChecked: Date | null = null
 
   public constructor() {
-
+    const lastSuccessfulCheck = localStorage.getItem(
+      lastSuccessfulCheckKey
+    )
+    if (lastSuccessfulCheck) {
+      const checkTime = parseInt(lastSuccessfulCheck, 10)
+      if (!isNaN(checkTime)) {
+        this.lastChecked = new Date(checkTime)
+      }
+    }
 
     autoUpdater.on('error', this.onAutoUpdaterError)
     autoUpdater.on('update-available', this.onUpdateAvailable)
     autoUpdater.on('update-not-available', this.onUpdateNotAvailable)
     autoUpdater.on('update-downloaded', this.onUpdateDownloaded)
     autoUpdater.on('checking-for-update', this.onCheckingForUpdate)
+  }
 
+  private updateLastChecked() {
+    const now = new Date()
+    const timeString = now.getTime().toString()
+
+    this.lastChecked = now
+    localStorage.setItem(lastSuccessfulCheckKey, timeString)
   }
 
   private onAutoUpdaterError = (error: Error) => {
@@ -29,6 +46,7 @@ class UpdateStore {
   }
 
   private onUpdateAvailable = () => {
+    this.updateLastChecked()
     this.status = UpdateStatus.UpdateAvailable
     this.emitDidChange()
   }
@@ -44,6 +62,7 @@ class UpdateStore {
   }
 
   private onUpdateNotAvailable = () => {
+    this.updateLastChecked()
     this.status = UpdateStatus.UpdateNotAvailable
     this.emitDidChange()
   }
