@@ -1,12 +1,6 @@
 import { Emitter, Disposable } from 'event-kit'
 import { autoUpdater } from 'electron-updater'
-
-export enum UpdateStatus {
-  Checking,
-  UpdateAvailable,
-  UpdateNotAvailable,
-  UpdateReady
-}
+import { UpdateStatus } from '../lib/app-state'
 
 export interface IUpdateState {
   status: UpdateStatus
@@ -78,7 +72,6 @@ class UpdateStore {
   }
 
   public checkForUpdates() {
-    console.log('checking updates')
     autoUpdater.checkForUpdates()
   }
 

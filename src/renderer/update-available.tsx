@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { updateStore } from '../main/update-store'
+//import { updateStore } from '../main/update-store'
 
 interface IUpdateAvailableProps {
   readonly onDismissed: () => void
@@ -19,7 +19,7 @@ export class UpdateAvailable extends React.Component<IUpdateAvailableProps, {}> 
   }
 
   private updateNow = () => {
-    updateStore.quitAndInstallUpdate()
+    //updateStore.quitAndInstallUpdate()
   }
 
   private onDismissed = () => {

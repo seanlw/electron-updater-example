@@ -4,7 +4,7 @@ import { AppStore } from '../lib/stores'
 import { IAppState } from '../lib/app-state'
 import { UpdateAvailable } from './update-available'
 import { ipcRenderer } from 'electron';
-import { UpdateStatus } from '../main/update-store';
+import { UpdateStatus } from '../lib/app-state';
 
 interface IAppProps {
   readonly appStore: AppStore
@@ -22,6 +22,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     ipcRenderer.on(
       'update-changed',
       (event: Electron.IpcMessageEvent, { status }: { status: UpdateStatus }) => {
+        console.log('update status', status)
         if (status === UpdateStatus.UpdateReady) {
           this.props.dispatcher.setUpdateAvailableVisibility(true)
         }
@@ -56,7 +57,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     return (
       <div>
         {this.renderUpdateBanner()}
-        <p>Hello World v0.0.1-alpha.1</p>
+        <p>Hello World v0.0.1-alpha.3</p>
       </div>
     )
   }

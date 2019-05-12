@@ -3,7 +3,7 @@ import * as path from 'path'
 import { staticPath } from '../lib/path'
 import { format as formatUrl } from 'url'
 import { MenuEvent } from './menu'
-import { UpdateStatus } from './update-store'
+import { UpdateStatus } from '../lib/app-state'
 import { Emitter, Disposable } from 'event-kit'
 
 let windowStateKeeper: any | null = null

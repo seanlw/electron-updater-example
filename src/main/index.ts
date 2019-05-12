@@ -38,6 +38,7 @@ app.on('ready', () => {
     }
   })
   updateStore.checkForUpdates()
+  console.log('version', app.getVersion())
 
   ipcMain.on('menu-event', (event: Electron.IpcMessageEvent, args: any[]) => {
     const { name }: { name: MenuEvent } = event as any
