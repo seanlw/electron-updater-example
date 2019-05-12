@@ -10,4 +10,8 @@ export class Dispatcher {
   public loadInitialState(): Promise<void> {
     return this.appStore.loadInitialState()
   }
+
+  public setUpdateAvailableVisibility(visable: boolean) {
+    return this.appStore._setUpdateAvailableVisibility(visable)
+  }
 }

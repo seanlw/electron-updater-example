@@ -6,7 +6,7 @@
     "name": "Sean Watkins",
     "email": "seanlw@gmail.com"
   },
-  "homepage": "http://example.com",
+  "homepage": "https://github.com/seanlw/electron-updater-example",
   "version": "0.0.1-alpha.1",
   "license": "MIT",
   "scripts": {
@@ -14,7 +14,8 @@
     "compile": "electron-webpack",
     "dist": "yarn compile && electron-builder",
     "dist:dir": "yarn dist --dir -c.compression=store -c.mac.identity=null",
-    "pack": "yarn compile && electron-builder --dir"
+    "pack": "yarn compile && electron-builder --dir",
+    "release": "build"
   },
   "build": {
     "productName": "Electron Updater Example",
