@@ -61,7 +61,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     return (
       <div>
         {this.renderUpdateBanner()}
-        <p>Hello World v0.0.1-alpha.4</p>
+        <p>Hello World v0.0.1-alpha.5</p>
       </div>
     )
   }
