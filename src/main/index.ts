@@ -4,6 +4,7 @@ import { buildDefaultMenu, MenuEvent } from './menu'
 import { updateStore } from './update-store'
 
 let mainWindow: AppWindow | null = null
+const __DEV__ = process.env.NODE_ENV === 'development'
 
 // quit application when all windows are closed
 app.on('window-all-closed', () => {
@@ -37,8 +38,9 @@ app.on('ready', () => {
       mainWindow.sendUpdateError(error)
     }
   })
-  updateStore.checkForUpdates()
-  console.log('version', app.getVersion())
+  if (!__DEV__) {
+    updateStore.checkForUpdates()
+  }
 
   ipcMain.on('menu-event', (event: Electron.IpcMessageEvent, args: any[]) => {
     const { name }: { name: MenuEvent } = event as any
@@ -52,6 +54,13 @@ app.on('ready', () => {
     (event: Electron.IpcMessageEvent, { path }: { path: string }) => {
       const result = shell.openExternal(path)
       event.sender.send('open-external-result', { result })
+    }
+  )
+
+  ipcMain.on(
+    'update-now',
+    (event: Electron.IpcMessageEvent, args: any[]) => {
+      updateStore.quitAndInstallUpdate()
     }
   )
 

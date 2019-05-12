@@ -45,12 +45,16 @@ export class App extends React.Component<IAppProps, IAppState> {
     return (
       <UpdateAvailable
         onDismissed={this.onUpdateAvailableDismissed}
+        onUpdateNow={this.onUpdateNow}
       />
     )
   }
 
   private onUpdateAvailableDismissed = () => 
     this.props.dispatcher.setUpdateAvailableVisibility(false)
+
+  private onUpdateNow = () =>
+    this.props.dispatcher.updateNow()
 
   public render() {
 

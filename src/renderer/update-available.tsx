@@ -1,8 +1,8 @@
 import * as React from 'react'
-//import { updateStore } from '../main/update-store'
 
 interface IUpdateAvailableProps {
   readonly onDismissed: () => void
+  readonly onUpdateNow: () => void
 }
 
 export class UpdateAvailable extends React.Component<IUpdateAvailableProps, {}> {
@@ -12,14 +12,14 @@ export class UpdateAvailable extends React.Component<IUpdateAvailableProps, {}> 
       <div>
         <span>Update Available</span>
 
-        <a onClick={this.updateNow}>Update</a>
+        <a onClick={this.onUpdateNow}>Update</a>
         <a onClick={this.onDismissed}>Dismiss</a>
       </div>
     )
   }
 
-  private updateNow = () => {
-    //updateStore.quitAndInstallUpdate()
+  private onUpdateNow = () => {
+    this.props.onUpdateNow()
   }
 
   private onDismissed = () => {

@@ -14,4 +14,8 @@ export class Dispatcher {
   public setUpdateAvailableVisibility(visable: boolean) {
     return this.appStore._setUpdateAvailableVisibility(visable)
   }
+
+  public updateNow() {
+    return this.appStore._updateNow()
+  }
 }

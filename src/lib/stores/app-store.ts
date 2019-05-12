@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron'
 import { IAppState } from '../app-state'
 import { TypedBaseStore } from './base-store'
 
@@ -40,5 +41,9 @@ export class AppStore extends TypedBaseStore<IAppState> {
     this.isUpdateAvailable = visable
 
     this.emitUpdate()
+  }
+
+  public _updateNow() {
+    ipcRenderer.send('update-now')
   }
 }
