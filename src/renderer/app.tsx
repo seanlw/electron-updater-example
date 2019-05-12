@@ -18,6 +18,9 @@ export class App extends React.Component<IAppProps, IAppState> {
     super(props)
 
     this.state = props.appStore.getState()
+    props.appStore.onDidUpdate(state => {
+      this.setState(state)
+    })
 
     ipcRenderer.on(
       'update-changed',
@@ -61,7 +64,7 @@ export class App extends React.Component<IAppProps, IAppState> {
     return (
       <div>
         {this.renderUpdateBanner()}
-        <p>Hello World v0.0.1-alpha.5</p>
+        <p>Hello World v0.0.1-alpha.7</p>
       </div>
     )
   }
