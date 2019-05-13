@@ -1,8 +1,10 @@
 import { Emitter, Disposable } from 'event-kit'
 import { autoUpdater } from 'electron-updater'
 import { UpdateStatus } from '../lib/app-state'
+import * as ElectronStore from 'electron-store'
 
 const lastSuccessfulCheckKey = 'last-successful-update-check'
+const electronStore = new ElectronStore({ name: 'electron-update-example' })
 
 export interface IUpdateState {
   status: UpdateStatus
@@ -15,9 +17,7 @@ class UpdateStore {
   private lastChecked: Date | null = null
 
   public constructor() {
-    const lastSuccessfulCheck = localStorage.getItem(
-      lastSuccessfulCheckKey
-    )
+    const lastSuccessfulCheck =  String(electronStore.get(lastSuccessfulCheckKey))
     if (lastSuccessfulCheck) {
       const checkTime = parseInt(lastSuccessfulCheck, 10)
       if (!isNaN(checkTime)) {
@@ -37,7 +37,7 @@ class UpdateStore {
     const timeString = now.getTime().toString()
 
     this.lastChecked = now
-    localStorage.setItem(lastSuccessfulCheckKey, timeString)
+    electronStore.set(lastSuccessfulCheckKey, timeString)
   }
 
   private onAutoUpdaterError = (error: Error) => {
